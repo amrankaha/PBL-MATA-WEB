@@ -15,7 +15,7 @@ jobs:
       run: |
         curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
         -d "chat_id=-5562661738" \
-        -d "text=✅ [DEVOPS SUCCESS] Repository M.A.T.A berhasil diperbarui dan pipeline berjalan sukses!"
+        -d "text=✅ [DEVOPS SUCCESS] Repository M.A.T.A berhasil diperbarui dan pipeline berjalan sukses!!"
 
     - name: Send Telegram Notification on Failure
       if: failure()
