@@ -13,7 +13,7 @@ jobs:
     - name: Send Telegram Notification on Success
       if: success()
       run: |
-        curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
+        curl -s -X POST "https://api.telegram.org/bot9177145189:AAGQoVGNFidL4VPFIr0tmWDRMCrXfaC5rfI/sendMessage" \
         -d "chat_id=-5562661738" \
         -d "text=✅ [DEVOPS SUCCESS] Repository M.A.T.A berhasil diperbarui dan pipeline berjalan sukses!!"
 
