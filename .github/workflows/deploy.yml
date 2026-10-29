@@ -21,6 +21,6 @@ jobs:
       - name: Send Telegram Notification on Failure
         if: failure()
         run: |
-          curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
+          curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz3-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
           -d "chat_id=-5562661738" \
           -d "text=❌ [DEVOPS FAILED] Pipeline GitHub Actions mengalami error! Segera cek log."
