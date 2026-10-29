@@ -1,26 +1,25 @@
 name: CI/CD Pipeline & Telegram Notification
 
-on:
-  push:
-    branches: [ "main" ]
+on: [push]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Send Telegram Notification on Success
-        if: success()
-        run: |
-          curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
-          -d "chat_id=-5562661738" \
-          -d "text=✅ [DEVOPS SUCCESS] Repository M.A.T.A berhasil diperbarui dan pipeline berjalan sukses!"
+    - name: Send Telegram Notification on Success
+      if: success()
+      run: |
+        curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
+        -d "chat_id=-5562661738" \
+        -d "text=✅ [DEVOPS SUCCESS] Repository M.A.T.A berhasil diperbarui dan pipeline berjalan sukses!"
 
-      - name: Send Telegram Notification on Failure
-        if: failure()
-        run: |
-          curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz3-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
-          -d "chat_id=-5562661738" \
-          -d "text=❌ [DEVOPS FAILED] Pipeline GitHub Actions mengalami error! Segera cek log."
+    - name: Send Telegram Notification on Failure
+      if: failure()
+      run: |
+        curl -s -X POST "https://api.telegram.org/bot9275942680:AAENz-MkTLuPwPkE1XUMbozgsc53u_gj5w/sendMessage" \
+        -d "chat_id=-5562661738" \
+        -d "text=❌ [DEVOPS FAILED] Pipeline GitHub Actions mengalami error! Segera cek log."
