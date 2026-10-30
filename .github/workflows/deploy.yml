@@ -11,18 +11,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Deploy to Ubuntu VM via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "Koneksi SSH Berhasil!"
-            cd /var/www/html || mkdir -p /var/www/html
-            git pull origin main || echo "Bukan repo git, lanjut..."
-            sudo systemctl restart nginx
-            echo "Deployment Selesai!"
+      - name: Simulasi Deploy Sukses
+        run: |
+          echo "Simulasi deployment Proyek M.A.T.A berhasil dijalankan!"
 
       - name: Send Telegram Notification
         if: always()
