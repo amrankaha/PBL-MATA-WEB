@@ -1,36 +1,36 @@
-name: Deploy to Ubuntu VM & Notify Telegram
+name: M.A.T.A CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Setup SSH Key
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Deploy to Ubuntu VM via SSH
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Deploy to Server via SSH
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USE }}@${{ secrets.SERVER_HOST }} "cd /path/ke/project/di/ubuntu && git pull && echo 'Deploy Berhasil!'"
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Koneksi SSH Berhasil!"
+            cd /var/www/html || mkdir -p /var/www/html
+            git pull origin main || echo "Bukan repo git, lanjut..."
+            sudo systemctl restart nginx
+            echo "Deployment Selesai!"
 
       - name: Send Telegram Notification
         if: always()
-        run: |
-          STATUS="${{ job.status }}"
-          if [ "$STATUS" == "success" ]; then
-            MESSAGE="✅ *SUKSES!*\nDeployment M.A.T.A PBL ke Ubuntu Server berhasil dilakukan secara otomatis!"
-          else
-            MESSAGE="❌ *GAGAL!*\nDeployment M.A.T.A PBL mengalami error/gagal. Cek log GitHub Actions."
-          fi
-          
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d "text=$MESSAGE" \
-            -d "parse_mode=Markdown"
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🚀 Proyek M.A.T.A - Status Deployment: ${{ job.status }}
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
